@@ -1,10 +1,17 @@
 import axios from 'axios';
 
+import authService from '../services/auth-service';
+import axiosService from '../services/axios-service';
 import {
   FETCH_RENTAL_BY_ID_SUCCESS,
   FETCH_RENTAL_BY_ID_INIT,
-  FETCH_RENTALS_SUCCESS
+  FETCH_RENTALS_SUCCESS,
+  LOGIN_FAILURE,
+  LOGIN_SUCCESS,
+  LOGOUT
 } from './types';
+
+const axiosInstance = axiosService.getInstance();
 
 const fetchRentalByIdInit = () => {
   return {
@@ -28,8 +35,8 @@ const fetchRentalsSuccess = rentals => {
 
 export const fetchRentals = () => {
   return dispatch => {
-    axios
-      .get('/api/v1/rentals')
+    axiosInstance
+      .get('/rentals')
       .then(res => {
         return res.data;
       })
@@ -64,4 +71,49 @@ export const register = userData => {
       return Promise.reject(err.response.data.errors);
     }
   );
+};
+
+const loginSuccess = () => {
+  return {
+    type: LOGIN_SUCCESS
+  };
+};
+
+const loginFailure = errors => {
+  return {
+    type: LOGIN_FAILURE,
+    errors
+  };
+};
+
+export const checkAuthState = () => {
+  return dispatch => {
+    if (authService.isAuthenticated()) {
+      dispatch(loginSuccess());
+    }
+  };
+};
+
+export const login = userData => {
+  return dispatch => {
+    return axios
+      .post('api/v1/users/auth', { ...userData })
+      .then(res => {
+        return res.data;
+      })
+      .then(token => {
+        authService.saveToken(token);
+        dispatch(loginSuccess());
+      })
+      .catch(err => {
+        dispatch(loginFailure(err.response.data.errors));
+      });
+  };
+};
+
+export const logoout = () => {
+  authService.invalidateUser();
+  return {
+    type: LOGOUT
+  };
 };
