@@ -2,14 +2,14 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 
 import { BwmInput } from '../shared/form/Bwminput';
+import { BwmResError } from '../shared/form/BwmResError';
 
 const RegisterForm = props => {
-  const { handleSubmit, pristine, reset, submitting, submitCb, valid } = props;
+  const { handleSubmit, pristine, submitting, submitCb, valid, errors } = props;
   return (
     <form onSubmit={handleSubmit(submitCb)}>
       <Field
         name='username'
-        component='input'
         type='text'
         className='form-control'
         label='Username'
@@ -18,7 +18,6 @@ const RegisterForm = props => {
 
       <Field
         name='email'
-        component='input'
         type='email'
         className='form-control'
         label='Email'
@@ -27,7 +26,6 @@ const RegisterForm = props => {
 
       <Field
         name='password'
-        component='input'
         type='password'
         className='form-control'
         label='Password'
@@ -36,7 +34,6 @@ const RegisterForm = props => {
 
       <Field
         name='passwordConfirmation'
-        component='input'
         type='password'
         className='form-control'
         label='Password Confirmation'
@@ -48,8 +45,9 @@ const RegisterForm = props => {
         type='submit'
         disabled={!valid || pristine || submitting}
       >
-        Submit
+        Register
       </button>
+      <BwmResError errors={errors} />
     </form>
   );
 };
