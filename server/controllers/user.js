@@ -30,7 +30,7 @@ exports.auth = function(req, res) {
         ]
       });
     }
-    console.log(user);
+
     if (user.hasSamePassword(password)) {
       const token = jwt.sign(
         {
