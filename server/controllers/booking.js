@@ -51,6 +51,7 @@ exports.createBooking = function(req, res) {
                 .send({ errors: normalizeErrors(err.errors) });
             }
           });
+
           User.update(
             { _id: user.id },
             { $push: { bookings: booking } },
@@ -62,7 +63,6 @@ exports.createBooking = function(req, res) {
               }
             }
           );
-          return res.json({ startAt: booking.startAt, endAt: booking.endAt });
         });
       } else {
         return res.status(422).send({
@@ -75,6 +75,7 @@ exports.createBooking = function(req, res) {
         });
       }
     });
+  return res.json({ startAt: booking.startAt, endAt: booking.endAt });
 };
 
 function isValidBooking(proposedBooking, rental) {
