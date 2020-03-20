@@ -1,12 +1,12 @@
-//import titleize from 'titleize';
+import titleize from 'titleize';
 import * as moment from 'moment';
 
 export const rentalType = isShared => {
   return isShared ? 'shared' : 'entire';
 };
 
-//export const toUpperCase = value => (value ? titleize(value) : '');
-export const toUpperCase = value => (value ? value : '');
+export const toUpperCase = value => (value ? titleize(value) : '');
+//export const toUpperCase = value => (value ? value : '');
 
 export const getRangeOfDates = (startAt, endAt, dateFormat) => {
   const tempDates = [];

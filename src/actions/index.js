@@ -8,7 +8,9 @@ import {
   FETCH_RENTALS_SUCCESS,
   LOGIN_FAILURE,
   LOGIN_SUCCESS,
-  LOGOUT
+  LOGOUT,
+  FETCH_RENTALS_FAIL,
+  FETCH_RENTALS_INIT
 } from './types';
 
 const axiosInstance = axiosService.getInstance();
@@ -32,16 +34,33 @@ const fetchRentalsSuccess = rentals => {
     rentals
   };
 };
+const fetchRentalsInit = () => {
+  return {
+    type: FETCH_RENTALS_INIT
+  };
+};
 
-export const fetchRentals = () => {
+const fetchRentalsFail = errors => {
+  return {
+    type: FETCH_RENTALS_FAIL,
+    errors
+  };
+};
+
+export const fetchRentals = city => {
+  const url = city ? `/rentals?city=${city}` : '/rentals';
   return dispatch => {
+    dispatch(fetchRentalsInit());
     axiosInstance
-      .get('/rentals')
+      .get(url)
       .then(res => {
         return res.data;
       })
       .then(rentals => {
         dispatch(fetchRentalsSuccess(rentals));
+      })
+      .catch(err => {
+        dispatch(fetchRentalsFail(err.response.data.errors));
       });
   };
 };
@@ -60,6 +79,17 @@ export const fetchRentalById = rentalId => {
   };
 };
 
+export const createRental = rentalData => {
+  return axiosInstance.post('/rentals', rentalData).then(
+    res => {
+      return res.data;
+    },
+    err => {
+      return Promise.reject(err.response.data.errors);
+    }
+  );
+};
+
 // Auth actions
 
 export const register = userData => {
@@ -74,8 +104,10 @@ export const register = userData => {
 };
 
 const loginSuccess = () => {
+  const username = authService.getUsername();
   return {
-    type: LOGIN_SUCCESS
+    type: LOGIN_SUCCESS,
+    username
   };
 };
 
