@@ -6,7 +6,7 @@ export const BwmResError = props => {
     errors.length > 0 && (
       <div className='alert alert-danger bwm-res-errors'>
         {errors.map((error, index) => (
-          <p key={index}>{error.detail}</p>
+          <p key={index}>{error.details}</p>
         ))}
       </div>
     )

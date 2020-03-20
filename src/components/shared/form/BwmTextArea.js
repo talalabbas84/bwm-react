@@ -1,0 +1,22 @@
+import React from 'react';
+
+export const BwmTextArea = ({
+  input,
+  label,
+  type,
+  rows,
+  className,
+  meta: { touched, error, warning }
+}) => (
+  <div className='form-group'>
+    <label>{label}</label>
+    <div className='input-group'></div>
+    <textarea
+      {...input}
+      type={type}
+      rows={rows}
+      className={className}
+    ></textarea>
+    {touched && error && <div className='alert alert-danger'>{error}</div>}
+  </div>
+);
