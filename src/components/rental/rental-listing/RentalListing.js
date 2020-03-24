@@ -6,7 +6,7 @@ import * as actions from '../../../actions';
 import { RentalList } from './RentalList';
 
 class RentalListing extends Component {
-  componentDidMount() {
+  componentWillMount() {
     this.props.dispatch(actions.fetchRentals());
   }
 

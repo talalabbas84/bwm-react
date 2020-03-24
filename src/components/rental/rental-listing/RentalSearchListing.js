@@ -13,10 +13,10 @@ class RentalSearchListing extends Component {
       searchedCity: ''
     };
   }
-  componentDidMount() {
+  componentWillMount() {
     this.searchRentalsByCity();
   }
-  componentDidUpdate(prevProps) {
+  componentWillUpdate(prevProps) {
     const currentUrlParam = this.props.match.params.city;
     const prevUrlParam = prevProps.match.params.city;
 

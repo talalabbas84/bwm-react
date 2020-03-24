@@ -10,7 +10,10 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
   FETCH_RENTALS_FAIL,
-  FETCH_RENTALS_INIT
+  FETCH_RENTALS_INIT,
+  FETCH_USER_BOOKINGS_FAIL,
+  FETCH_USER_BOOKINGS_INIT,
+  FETCH_USER_BOOKINGS_SUCCESS
 } from './types';
 
 const axiosInstance = axiosService.getInstance();
@@ -90,6 +93,64 @@ export const createRental = rentalData => {
   );
 };
 
+//USER BOOKING ACTIONS
+const fetchUserBookingInit = () => {
+  return {
+    type: FETCH_USER_BOOKINGS_INIT
+  };
+};
+const fetchUserBookingSuccess = userBookings => {
+  return {
+    type: FETCH_USER_BOOKINGS_SUCCESS,
+    userBookings
+  };
+};
+const fetchUserBookingFail = errors => {
+  return {
+    type: FETCH_USER_BOOKINGS_FAIL,
+    errors
+  };
+};
+
+export const fetchUserBookings = () => {
+  return dispatch => {
+    dispatch(fetchUserBookingInit());
+    axiosInstance
+      .get('/bookings/manage')
+      .then(res => {
+        return res.data;
+      })
+      .then(userBookings => {
+        dispatch(fetchUserBookingSuccess(userBookings));
+      })
+      .catch(err => {
+        dispatch(fetchUserBookingFail(err.response.data.errors));
+      });
+  };
+};
+
+export const deleteRental = rentalId => {
+  return axiosInstance.delete(`/rentals/${rentalId}`).then(
+    res => {
+      return res.data;
+    },
+    err => {
+      return Promise.reject(err.response.data.errors);
+    }
+  );
+};
+
+//USER RENTALS ACTIONS
+export const getUserRentals = () => {
+  return axiosInstance.get('/rentals/manage').then(
+    res => {
+      return res.data;
+    },
+    err => {
+      return Promise.reject(err.response.data.errors);
+    }
+  );
+};
 // Auth actions
 
 export const register = userData => {

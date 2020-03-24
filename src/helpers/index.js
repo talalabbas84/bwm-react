@@ -1,5 +1,8 @@
-import titleize from 'titleize';
+//import titleize from 'titleize';
 import * as moment from 'moment';
+import { titleize } from 'inflected';
+
+export const pretifyDate = date => moment(date).format('MM Do YY');
 
 export const rentalType = isShared => {
   return isShared ? 'shared' : 'entire';
@@ -8,7 +11,7 @@ export const rentalType = isShared => {
 export const toUpperCase = value => (value ? titleize(value) : '');
 //export const toUpperCase = value => (value ? value : '');
 
-export const getRangeOfDates = (startAt, endAt, dateFormat) => {
+export const getRangeOfDates = (startAt, endAt, dateFormat = 'Y/MM/DD') => {
   const tempDates = [];
   const mEndAt = moment(endAt);
   let mStartAt = moment(startAt);

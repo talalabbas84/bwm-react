@@ -48,7 +48,7 @@ function withGeocode(WrappedComponent) {
         isLocationLoaded: false
       };
     }
-    componentDidMount() {
+    componentWillMount() {
       this.getGeocodedLocation();
     }
     updateCoordinates(coordinates) {
