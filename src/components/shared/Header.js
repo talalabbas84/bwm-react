@@ -58,10 +58,10 @@ class Header extends Component {
             <Link className='dropdown-item' to='/rentals/new'>
               Create Rental
             </Link>
-            <Link className='dropdown-item' to='#'>
+            <Link className='dropdown-item' to='/rentals/manage'>
               Manage Rentals
             </Link>
-            <Link className='dropdown-item' to='#'>
+            <Link className='dropdown-item' to='/bookings/manage'>
               Manage Bookings
             </Link>
           </div>
