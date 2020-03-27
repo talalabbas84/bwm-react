@@ -1,8 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const path = require('path');
 
-const config = require('./config/dev');
+const config = require('./config');
 const Rental = require('./models/rental');
 const FakeDb = require('./fake-db');
 const rentalRoutes = require('./routes/rentals');
@@ -14,8 +15,10 @@ mongoose
     useUnifiedTopology: true
   })
   .then(() => {
-    const fakeDb = new FakeDb();
-    //  fakeDb.seeDb();
+    if (process.env.NODE_ENV !== 'production') {
+      const fakeDb = new FakeDb();
+      //fakeDb.seeDb();
+    }
   });
 
 const app = express();
@@ -26,9 +29,17 @@ app.use('/api/v1/rentals', rentalRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/bookings', bookingRoutes);
 
-app.get('/rentals', function(req, res) {
-  res.json({ success: true });
-});
+if (process.env.NODE_ENV === 'production') {
+  const appPath = path.join(__dirname, '..', 'build');
+  app.use(express.static(appPath));
+  app.get('*', function(req, res) {
+    res.sendFile(path.resolve(appPath, 'index.html'));
+  });
+
+  app.get('/rentals', function(req, res) {
+    res.json({ success: true });
+  });
+}
 
 const PORT = process.env.PORT || 3001;
 
