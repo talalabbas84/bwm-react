@@ -19,7 +19,7 @@
     "bootstrap": "^4.0.0",
     "bootstrap-daterangepicker": "^2.1.30",
     "camel-case": "^4.1.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "font-awesome": "^4.7.0",
     "inflected": "^2.0.4",
     "jquery": "^3.3.1",
