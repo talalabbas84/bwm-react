@@ -23,7 +23,7 @@
     "font-awesome": "^4.7.0",
     "inflected": "^2.0.4",
     "jquery": "^3.3.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "moment": "^2.24.0",
     "mongoose": "^5.9.4",
     "node-sass-chokidar": "^1.2.2",
